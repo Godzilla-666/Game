@@ -340,7 +340,7 @@ body {
         menu.style.top = y + "%";
 
         // Drei neue Buttons
-        const buildings = ["Haus", "Turm", "Kaserne"];
+        const buildings = ["Wald", "Turm", "Kaserne"];
 
         buildings.forEach(function(name) {
 
@@ -356,8 +356,8 @@ body {
            newButton.addEventListener("click", function(e) {
     e.stopPropagation();
 
-    if (name === "Haus") {
-        location.href = "teleport.html";
+    if (name === "Wald") {
+        location.href = "Wald.html";
     }
 
     if (name === "Turm") {
