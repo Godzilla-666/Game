@@ -349,7 +349,9 @@ body {
             newButton.type = "button";
             newButton.className = "extra-build-button";
 
-            
+            newButton.innerHTML = `
+                ${name}
+               `;
 
             newButton.addEventListener("click", function(e) {
                 e.stopPropagation();
