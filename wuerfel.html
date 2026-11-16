@@ -4,121 +4,191 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Würfel-Spiel</title>
+<title>3D Würfel-Spiel</title>
 
 <style>
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, #141e30, #243b55);
+    background: radial-gradient(circle, #304b69, #101827);
     font-family: Arial, sans-serif;
     color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
 
 h1 {
     font-size: 38px;
-    margin-bottom: 45px;
+    margin-bottom: 65px;
 }
 
 .wuerfel-container {
     display: flex;
-    gap: 50px;
-    perspective: 800px;
-    margin-bottom: 45px;
+    gap: 100px;
+    perspective: 900px;
+    margin-bottom: 80px;
+}
+
+.wuerfel-bereich {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.wuerfel-bereich p {
+    font-size: 18px;
+    font-weight: bold;
 }
 
 .wuerfel {
     width: 110px;
     height: 110px;
-    background: white;
-    color: #243b55;
-    border-radius: 18px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 1.5s cubic-bezier(.15,.8,.2,1);
+}
+
+.seite {
+    position: absolute;
+    width: 110px;
+    height: 110px;
+    background: linear-gradient(145deg, #ffffff, #dce4ed);
+    border: 3px solid #aab6c4;
+    border-radius: 15px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    font-size: 55px;
+    justify-content: center;
+    font-size: 52px;
     font-weight: bold;
-    box-shadow: 0 10px 25px #0008;
-    transition: transform 0.3s;
+    color: #17283c;
+    box-shadow: inset 0 0 12px #0002;
+    backface-visibility: hidden;
 }
 
-.wuerfel.roll {
-    animation: rollen 0.8s ease-in-out;
-}
-
-@keyframes rollen {
-    0% {
-        transform: rotate(0deg) scale(1);
-    }
-    25% {
-        transform: rotate(90deg) scale(1.2);
-    }
-    50% {
-        transform: rotate(180deg) scale(0.8);
-    }
-    75% {
-        transform: rotate(270deg) scale(1.2);
-    }
-    100% {
-        transform: rotate(360deg) scale(1);
-    }
-}
+.vorne  { transform: translateZ(55px); }
+.hinten { transform: rotateY(180deg) translateZ(55px); }
+.rechts { transform: rotateY(90deg) translateZ(55px); }
+.links  { transform: rotateY(-90deg) translateZ(55px); }
+.oben   { transform: rotateX(90deg) translateZ(55px); }
+.unten  { transform: rotateX(-90deg) translateZ(55px); }
 
 button {
-    padding: 18px 55px;
-    font-size: 22px;
-    font-weight: bold;
-    color: white;
-    background: #00b894;
+    padding: 18px 60px;
     border: none;
-    border-radius: 12px;
+    border-radius: 14px;
+    background: #00c896;
+    color: white;
+    font-size: 23px;
+    font-weight: bold;
     cursor: pointer;
-    box-shadow: 0 5px 15px #0005;
+    box-shadow: 0 7px 0 #008c69;
     transition: 0.2s;
 }
 
 button:hover {
-    background: #00d2a5;
-    transform: scale(1.05);
+    background: #00e0a9;
+    transform: translateY(-3px);
+}
+
+button:active {
+    transform: translateY(4px);
+    box-shadow: 0 3px 0 #008c69;
 }
 
 button:disabled {
-    opacity: 0.6;
+    opacity: .6;
     cursor: wait;
 }
 
 #ergebnis {
-    margin-top: 30px;
-    font-size: 24px;
+    margin-top: 35px;
+    font-size: 25px;
     font-weight: bold;
+}
+
+@media(max-width: 500px) {
+    .wuerfel-container {
+        gap: 35px;
+    }
+
+    .wuerfel, .seite {
+        width: 85px;
+        height: 85px;
+    }
+
+    .seite {
+        font-size: 40px;
+    }
+
+    .vorne  { transform: translateZ(42.5px); }
+    .hinten { transform: rotateY(180deg) translateZ(42.5px); }
+    .rechts { transform: rotateY(90deg) translateZ(42.5px); }
+    .links  { transform: rotateY(-90deg) translateZ(42.5px); }
+    .oben   { transform: rotateX(90deg) translateZ(42.5px); }
+    .unten  { transform: rotateX(-90deg) translateZ(42.5px); }
 }
 </style>
 </head>
 
 <body>
 
-<h1>🎲 Würfel-Spiel 🎲</h1>
+<h1>🎲 3D Würfel-Spiel 🎲</h1>
 
 <div class="wuerfel-container">
-    <div class="wuerfel" id="buchstabenWuerfel">A</div>
-    <div class="wuerfel" id="zahlenWuerfel">1</div>
+
+    <div class="wuerfel-bereich">
+        <p>Buchstabenwürfel</p>
+        <div class="wuerfel" id="buchstabenWuerfel">
+            <div class="seite vorne">A</div>
+            <div class="seite hinten">B</div>
+            <div class="seite rechts">C</div>
+            <div class="seite links">D</div>
+            <div class="seite oben">E</div>
+            <div class="seite unten">F</div>
+        </div>
+    </div>
+
+    <div class="wuerfel-bereich">
+        <p>Zahlenwürfel</p>
+        <div class="wuerfel" id="zahlenWuerfel">
+            <div class="seite vorne">1</div>
+            <div class="seite hinten">6</div>
+            <div class="seite rechts">3</div>
+            <div class="seite links">4</div>
+            <div class="seite oben">5</div>
+            <div class="seite unten">2</div>
+        </div>
+    </div>
+
 </div>
 
-<button id="wuerfelButton" onclick="wuerfeln()">
-    WÜRFELN
-</button>
+<button id="button" onclick="wuerfeln()">🎲 WÜRFELN</button>
 
-<div id="ergebnis">
-    Drücke auf WÜRFELN!
-</div>
+<div id="ergebnis">Bereit zum Würfeln!</div>
 
 <script>
 const buchstaben = ["A", "B", "C", "D", "E", "F"];
 const zahlen = [1, 2, 3, 4, 5, 6];
+
+// Drehungen, damit die jeweilige Seite vorne landet
+const positionen = [
+    {x: 0, y: 0},
+    {x: 0, y: 180},
+    {x: 0, y: -90},
+    {x: 0, y: 90},
+    {x: -90, y: 0},
+    {x: 90, y: 0}
+];
+
+let wurf = 0;
 
 function wuerfeln() {
     const buchstabenWuerfel =
@@ -127,42 +197,44 @@ function wuerfeln() {
     const zahlenWuerfel =
         document.getElementById("zahlenWuerfel");
 
-    const ergebnis =
-        document.getElementById("ergebnis");
-
-    const button =
-        document.getElementById("wuerfelButton");
+    const button = document.getElementById("button");
+    const ergebnis = document.getElementById("ergebnis");
 
     button.disabled = true;
+    ergebnis.textContent = "🎲 Die Würfel rollen...";
 
-    // Alte Animation entfernen
-    buchstabenWuerfel.classList.remove("roll");
-    zahlenWuerfel.classList.remove("roll");
+    // Zufällige Ergebnisse
+    const bIndex = Math.floor(Math.random() * 6);
+    const zIndex = Math.floor(Math.random() * 6);
 
-    // Animation neu starten
-    void buchstabenWuerfel.offsetWidth;
-    void zahlenWuerfel.offsetWidth;
+    const bPos = positionen[bIndex];
+    const zPos = positionen[zIndex];
 
-    buchstabenWuerfel.classList.add("roll");
-    zahlenWuerfel.classList.add("roll");
+    // Jede Runde zusätzliche Drehungen
+    const extraB = 360 * (3 + Math.floor(Math.random() * 3));
+    const extraZ = 360 * (3 + Math.floor(Math.random() * 3));
 
-    // Zufällige Ergebnisse erzeugen
-    const buchstabe =
-        buchstaben[Math.floor(Math.random() * 6)];
+    wurf++;
 
-    const zahl =
-        zahlen[Math.floor(Math.random() * 6)];
+    buchstabenWuerfel.style.transition =
+        "transform 1.8s cubic-bezier(.15,.8,.2,1)";
 
-    // Ergebnis nach der Animation anzeigen
+    zahlenWuerfel.style.transition =
+        "transform 1.8s cubic-bezier(.15,.8,.2,1)";
+
+    // 3D-Rollbewegung
+    buchstabenWuerfel.style.transform =
+        `rotateX(${extraB + bPos.x}deg) rotateY(${extraB + bPos.y}deg)`;
+
+    zahlenWuerfel.style.transform =
+        `rotateX(${extraZ + zPos.x}deg) rotateY(${extraZ + zPos.y}deg)`;
+
     setTimeout(() => {
-        buchstabenWuerfel.textContent = buchstabe;
-        zahlenWuerfel.textContent = zahl;
-
         ergebnis.textContent =
-            "Ergebnis: " + buchstabe + " + " + zahl;
+            "Ergebnis: " + buchstaben[bIndex] + " + " + zahlen[zIndex];
 
         button.disabled = false;
-    }, 800);
+    }, 1850);
 }
 </script>
 
