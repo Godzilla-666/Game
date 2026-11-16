@@ -151,42 +151,46 @@ body {
  
 <script> 
 
-/* NEUES UNTERMENÜ-SYSTEM */
 
 (function () {
 
     const map = document.querySelector(".map");
 
     if (!map) {
-        console.error("Karte nicht gefunden!");
+        console.error("Map wurde nicht gefunden!");
         return;
     }
+
+    let activeButton = null;
 
     map.addEventListener("click", function (event) {
 
         const button = event.target.closest(".build-button");
 
-        if (!button || !map.contains(button)) return;
+        if (!button || button.closest(".added-submenu")) {
+            return;
+        }
 
         event.preventDefault();
         event.stopPropagation();
 
-        // Prüfen, ob genau dieser Button bereits geöffnet ist
-        const existingMenu = map.querySelector(".added-submenu");
+        // Wenn derselbe Button erneut angeklickt wird:
+        if (activeButton === button) {
+            const oldMenu = map.querySelector(".added-submenu");
 
-        if (existingMenu && existingMenu.dataset.parent === "open") {
-            if (existingMenu._parentButton === button) {
-                existingMenu.remove();
-                return;
-            }
+            if (oldMenu) oldMenu.remove();
+
+            activeButton = null;
+            return;
         }
 
-        // Alle alten Menüs entfernen
-        map.querySelectorAll(".added-submenu").forEach(menu => {
-            menu.remove();
-        });
+        // Altes Menü schließen
+        const oldMenu = map.querySelector(".added-submenu");
+        if (oldMenu) oldMenu.remove();
 
-        // Position bestimmen
+        activeButton = button;
+
+        // Position des Buttons berechnen
         const mapRect = map.getBoundingClientRect();
         const buttonRect = button.getBoundingClientRect();
 
@@ -200,20 +204,15 @@ body {
             / mapRect.height
         ) * 100;
 
-        // Neues Menü erstellen
+        // Menü erstellen
         const menu = document.createElement("div");
-
         menu.className = "added-submenu";
-        menu.dataset.parent = "open";
-        menu._parentButton = button;
 
         menu.style.left = x + "%";
         menu.style.top = y + "%";
 
         // Drei neue Buttons
-        const buildings = ["Haus", "Turm", "Kaserne"];
-
-        buildings.forEach(name => {
+        ["Haus", "Turm", "Kaserne"].forEach(name => {
 
             const newButton = document.createElement("button");
 
@@ -243,6 +242,7 @@ body {
     }, true);
 
 })();
+
 
 </script>
 
