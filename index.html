@@ -150,55 +150,76 @@ body {
 </head>
  
 <script> 
-// NEUES UNTERMENÜ-SYSTEM
 
-document.addEventListener("DOMContentLoaded", function() {
+/* NEUES UNTERMENÜ-SYSTEM */
+
+(function () {
 
     const map = document.querySelector(".map");
 
-    if (!map) return;
+    if (!map) {
+        console.error("Karte nicht gefunden!");
+        return;
+    }
 
-    // Klick auf einen bisherigen Hauptbutton erkennen
-    map.addEventListener("click", function(event) {
+    map.addEventListener("click", function (event) {
 
         const button = event.target.closest(".build-button");
 
-        // Klick auf einen neuen Untermenü-Button ignorieren
-        if (!button || button.closest(".added-submenu")) return;
+        if (!button || !map.contains(button)) return;
 
-        // Alte Menüs entfernen
-        document.querySelectorAll(".added-submenu").forEach(menu => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        // Prüfen, ob genau dieser Button bereits geöffnet ist
+        const existingMenu = map.querySelector(".added-submenu");
+
+        if (existingMenu && existingMenu.dataset.parent === "open") {
+            if (existingMenu._parentButton === button) {
+                existingMenu.remove();
+                return;
+            }
+        }
+
+        // Alle alten Menüs entfernen
+        map.querySelectorAll(".added-submenu").forEach(menu => {
             menu.remove();
         });
 
-        event.preventDefault();
-        event.stopImmediatePropagation();
-
-        // Position des angeklickten Buttons bestimmen
+        // Position bestimmen
         const mapRect = map.getBoundingClientRect();
         const buttonRect = button.getBoundingClientRect();
 
-        const x = ((buttonRect.left + buttonRect.width / 2 - mapRect.left)
-                    / mapRect.width) * 100;
+        const x = (
+            (buttonRect.left + buttonRect.width / 2 - mapRect.left)
+            / mapRect.width
+        ) * 100;
 
-        const y = ((buttonRect.bottom - mapRect.top)
-                    / mapRect.height) * 100;
+        const y = (
+            (buttonRect.bottom - mapRect.top)
+            / mapRect.height
+        ) * 100;
 
         // Neues Menü erstellen
         const menu = document.createElement("div");
+
         menu.className = "added-submenu";
+        menu.dataset.parent = "open";
+        menu._parentButton = button;
 
         menu.style.left = x + "%";
         menu.style.top = y + "%";
 
         // Drei neue Buttons
-        const names = ["Haus", "Turm", "Kaserne"];
+        const buildings = ["Haus", "Turm", "Kaserne"];
 
-        names.forEach(function(name) {
+        buildings.forEach(name => {
 
             const newButton = document.createElement("button");
 
+            newButton.type = "button";
             newButton.className = "extra-build-button";
+
             newButton.innerHTML = `
                 ${name}
                 <span class="extra-price">
@@ -210,17 +231,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
             newButton.addEventListener("click", function(e) {
                 e.stopPropagation();
-                alert(name + " ausgewählt!");
+                console.log(name + " ausgewählt!");
             });
 
             menu.appendChild(newButton);
+
         });
 
         map.appendChild(menu);
 
     }, true);
 
-});
+})();
+
 </script>
 
 
