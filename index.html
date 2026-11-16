@@ -353,10 +353,21 @@ body {
                 ${name}
                `;
 
-            newButton.addEventListener("click", function(e) {
-                e.stopPropagation();
-                console.log(name + " ausgewählt!");
-            });
+           newButton.addEventListener("click", function(e) {
+    e.stopPropagation();
+
+    if (name === "Haus") {
+        location.href = "teleport.html";
+    }
+
+    if (name === "Turm") {
+        location.href = "teleport.html";
+    }
+
+    if (name === "Kaserne") {
+        location.href = "teleport.html";
+    }
+});
 
             menu.appendChild(newButton);
 
