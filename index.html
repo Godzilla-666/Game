@@ -349,14 +349,7 @@ body {
             newButton.type = "button";
             newButton.className = "extra-build-button";
 
-            newButton.innerHTML = `
-                ${name}
-                <span class="other">
-                    <span style="color:#ffd447">50 Gold</span>
-                    |
-                    <span style="color:#c98a4b">20 Holz</span>
-                </span>
-            `;
+            
 
             newButton.addEventListener("click", function(e) {
                 e.stopPropagation();
