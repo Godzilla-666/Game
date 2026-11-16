@@ -91,29 +91,61 @@ body {
 }
 
 
+/* NEUE UNTERMENÜ-BUTTONS */
 
- .other {
+.added-submenu {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    transform: translateX(-50%);
+    z-index: 100;
+}
+
+/* Eigenes Design der neuen Buttons */
+.extra-build-button {
+    position: relative;
+    width: 95px;
+    height: 35px;
+    background: linear-gradient(#315b37, #193a22);
+    border: 2px solid #d6ad50;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    cursor: pointer;
+    box-shadow: 0 3px 6px #0009;
+    transition: 0.2s;
+}
+
+.extra-build-button:hover {
+    background: linear-gradient(#548c48, #315b37);
+    border-color: white;
+    transform: scale(1.08);
+}
+
+/*Anzeige */
+.other {
     display: none;
     position: absolute;
-    bottom: 115%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #292929;
+    left: 105%;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #222;
     color: white;
-    border: 2px solid #d9b45b;
-    border-radius: 6px;
-    padding: 8px 12px;
+    border: 2px solid #d6ad50;
+    padding: 7px;
+    border-radius: 5px;
     white-space: nowrap;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    font-weight: bold;
-    box-shadow: 0 3px 10px #000;
+    z-index: 200;
+    font-size: 12px;
 }
 
-.build-button:hover .other,
-.build-button:focus .other {
+.extra-build-button:hover .other {
     display: block;
 }
+
 </style>
 </head>
 
@@ -221,6 +253,78 @@ body {
         </span>
     </button>
 </div>
+
+// NEUES UNTERMENÜ-SYSTEM
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    const map = document.querySelector(".map");
+
+    if (!map) return;
+
+    // Klick auf einen bisherigen Hauptbutton erkennen
+    map.addEventListener("click", function(event) {
+
+        const button = event.target.closest(".build-button");
+
+        // Klick auf einen neuen Untermenü-Button ignorieren
+        if (!button || button.closest(".added-submenu")) return;
+
+        // Alte Menüs entfernen
+        document.querySelectorAll(".added-submenu").forEach(menu => {
+            menu.remove();
+        });
+
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        // Position des angeklickten Buttons bestimmen
+        const mapRect = map.getBoundingClientRect();
+        const buttonRect = button.getBoundingClientRect();
+
+        const x = ((buttonRect.left + buttonRect.width / 2 - mapRect.left)
+                    / mapRect.width) * 100;
+
+        const y = ((buttonRect.bottom - mapRect.top)
+                    / mapRect.height) * 100;
+
+        // Neues Menü erstellen
+        const menu = document.createElement("div");
+        menu.className = "added-submenu";
+
+        menu.style.left = x + "%";
+        menu.style.top = y + "%";
+
+        // Drei neue Buttons
+        const names = ["Haus", "Turm", "Kaserne"];
+
+        names.forEach(function(name) {
+
+            const newButton = document.createElement("button");
+
+            newButton.className = "extra-build-button";
+            newButton.innerHTML = `
+                ${name}
+                <span class="extra-price">
+                    <span style="color:#ffd447">50 Gold</span>
+                    |
+                    <span style="color:#c98a4b">20 Holz</span>
+                </span>
+            `;
+
+            newButton.addEventListener("click", function(e) {
+                e.stopPropagation();
+                alert(name + " ausgewählt!");
+            });
+
+            menu.appendChild(newButton);
+        });
+
+        map.appendChild(menu);
+
+    }, true);
+
+});
 
 </body>
 </html>
