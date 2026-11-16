@@ -9,3 +9,197 @@
    }
  </style>
 </head>
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ressourcen-Baukarten</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.map {
+    position: relative;
+    width: min(100%, 1664px);
+    aspect-ratio: 1664 / 928;
+    background-image: url("Game chat.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+/* Quadratische Buttons */
+.build-button {
+    position: absolute;
+    width: 3.5%;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    background: rgba(45, 45, 45, 0.85);
+    border: 3px solid #d9b45b;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+    z-index: 2;
+}
+
+/* Hover-Effekt */
+.build-button:hover,
+.build-button:focus {
+    background: rgba(218, 170, 65, 0.95);
+    transform: translate(-50%, -50%) scale(1.15);
+    border-color: white;
+    outline: none;
+}
+
+/* Preis-Anzeige */
+.price {
+    display: none;
+    position: absolute;
+    bottom: 115%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #292929;
+    color: white;
+    border: 2px solid #d9b45b;
+    border-radius: 6px;
+    padding: 8px 12px;
+    white-space: nowrap;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: 0 3px 10px #000;
+}
+
+.build-button:hover .price,
+.build-button:focus .price {
+    display: block;
+}
+
+.gold {
+    color: #ffd447;
+}
+
+.wood {
+    color: #c98a4b;
+}
+</style>
+</head>
+
+<body>
+
+<div class="map">
+
+    <!-- Alle 13 Bau-Buttons -->
+
+    <button class="build-button" style="left:15.4%; top:26.5%">
+        <span class="price">
+            <span class="gold">50 Gold</span> |
+            <span class="wood">20 Holz</span>
+        </span>
+    </button>
+
+    <button class="build-button" style="left:28.8%; top:14.8%">
+        <span class="price">
+            <span class="gold">50 Gold</span> |
+            <span class="wood">20 Holz</span>
+        </span>
+    </button>
+
+    <button class="build-button" style="left:44.2%; top:12.3%">
+        <span class="price">
+            <span class="gold">50 Gold</span> |
+            <span class="wood">20 Holz</span>
+        </span>
+    </button>
+
+    <button class="build-button" style="left:58.4%; top:12.8%">
+        <span class="price">
+            <span class="gold">50 Gold</span> |
+            <span class="wood">20 Holz</span>
+        </span>
+    </button>
+
+    <button class="build-button" style="left:72.7%; top:16.3%">
+        <span class="price">
+            <span class="gold">50 Gold</span> |
+            <span class="wood">20 Holz</span>
+        </span>
+    </button>
+
+    <button class="build-button" style="left:84.8%; top:25%">
+        <span class="price">
+            <span class="gold">50 Gold</span> |
+            <span class="wood">20 Holz</span>
+        </span>
+    </button>
+
+    <button class="build-button" style="left:86.1%; top:45.2%">
+        <span class="price">
+            <span class="gold">50 Gold</span> |
+            <span class="wood">20 Holz</span>
+        </span>
+    </button>
+
+    <button class="build-button" style="left:86.3%; top:63.1%">
+        <span class="price">
+            <span class="gold">50 Gold</span> |
+            <span class="wood">20 Holz</span>
+        </span>
+    </button>
+
+    <button class="build-button" style="left:15.4%; top:53.3%">
+        <span class="price">
+            <span class="gold">50 Gold</span> |
+            <span class="wood">20 Holz</span>
+        </span>
+    </button>
+
+    <button class="build-button" style="left:24%; top:76.2%">
+        <span class="price">
+            <span class="gold">50 Gold</span> |
+            <span class="wood">20 Holz</span>
+        </span>
+    </button>
+
+    <button class="build-button" style="left:46%; top:78.1%">
+        <span class="price">
+            <span class="gold">50 Gold</span> |
+            <span class="wood">20 Holz</span>
+        </span>
+    </button>
+
+    <button class="build-button" style="left:63%; top:78.8%">
+        <span class="price">
+            <span class="gold">50 Gold</span> |
+            <span class="wood">20 Holz</span>
+        </span>
+    </button>
+
+    <button class="build-button" style="left:81.1%; top:80.7%">
+        <span class="price">
+            <span class="gold">50 Gold</span> |
+            <span class="wood">20 Holz</span>
+        </span>
+    </button>
+
+</div>
+
+</body>
+</html>
