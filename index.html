@@ -152,45 +152,36 @@ body {
 <script> 
 
 
+
+/* NEUES UNTERMENÜ-SYSTEM */
+
 (function () {
 
     const map = document.querySelector(".map");
 
     if (!map) {
-        console.error("Map wurde nicht gefunden!");
+        console.error("Die Karte mit class='map' wurde nicht gefunden!");
         return;
     }
 
-    let activeButton = null;
-
     map.addEventListener("click", function (event) {
 
-        const button = event.target.closest(".build-button");
+        // Prüfen, ob ein Hauptbutton angeklickt wurde
+        const button = event.target.closest(
+            ".build-button:not(.extra-build-button)"
+        );
 
-        if (!button || button.closest(".added-submenu")) {
-            return;
-        }
+        if (!button || !map.contains(button)) return;
 
         event.preventDefault();
         event.stopPropagation();
 
-        // Wenn derselbe Button erneut angeklickt wird:
-        if (activeButton === button) {
-            const oldMenu = map.querySelector(".added-submenu");
+        // Alle bisherigen Untermenüs schließen
+        map.querySelectorAll(".added-submenu").forEach(menu => {
+            menu.remove();
+        });
 
-            if (oldMenu) oldMenu.remove();
-
-            activeButton = null;
-            return;
-        }
-
-        // Altes Menü schließen
-        const oldMenu = map.querySelector(".added-submenu");
-        if (oldMenu) oldMenu.remove();
-
-        activeButton = button;
-
-        // Position des Buttons berechnen
+        // Position des Hauptbuttons ermitteln
         const mapRect = map.getBoundingClientRect();
         const buttonRect = button.getBoundingClientRect();
 
@@ -204,15 +195,17 @@ body {
             / mapRect.height
         ) * 100;
 
-        // Menü erstellen
+        // Untermenü erstellen
         const menu = document.createElement("div");
         menu.className = "added-submenu";
 
         menu.style.left = x + "%";
         menu.style.top = y + "%";
 
-        // Drei neue Buttons
-        ["Haus", "Turm", "Kaserne"].forEach(name => {
+        // Drei neue Buttons erstellen
+        const buildings = ["Haus", "Turm", "Kaserne"];
+
+        buildings.forEach(name => {
 
             const newButton = document.createElement("button");
 
