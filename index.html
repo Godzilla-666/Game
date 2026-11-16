@@ -148,7 +148,84 @@ body {
 
 </style>
 </head>
+ 
+<script> 
+// NEUES UNTERMENÜ-SYSTEM
 
+document.addEventListener("DOMContentLoaded", function() {
+
+    const map = document.querySelector(".map");
+
+    if (!map) return;
+
+    // Klick auf einen bisherigen Hauptbutton erkennen
+    map.addEventListener("click", function(event) {
+
+        const button = event.target.closest(".build-button");
+
+        // Klick auf einen neuen Untermenü-Button ignorieren
+        if (!button || button.closest(".added-submenu")) return;
+
+        // Alte Menüs entfernen
+        document.querySelectorAll(".added-submenu").forEach(menu => {
+            menu.remove();
+        });
+
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        // Position des angeklickten Buttons bestimmen
+        const mapRect = map.getBoundingClientRect();
+        const buttonRect = button.getBoundingClientRect();
+
+        const x = ((buttonRect.left + buttonRect.width / 2 - mapRect.left)
+                    / mapRect.width) * 100;
+
+        const y = ((buttonRect.bottom - mapRect.top)
+                    / mapRect.height) * 100;
+
+        // Neues Menü erstellen
+        const menu = document.createElement("div");
+        menu.className = "added-submenu";
+
+        menu.style.left = x + "%";
+        menu.style.top = y + "%";
+
+        // Drei neue Buttons
+        const names = ["Haus", "Turm", "Kaserne"];
+
+        names.forEach(function(name) {
+
+            const newButton = document.createElement("button");
+
+            newButton.className = "extra-build-button";
+            newButton.innerHTML = `
+                ${name}
+                <span class="extra-price">
+                    <span style="color:#ffd447">50 Gold</span>
+                    |
+                    <span style="color:#c98a4b">20 Holz</span>
+                </span>
+            `;
+
+            newButton.addEventListener("click", function(e) {
+                e.stopPropagation();
+                alert(name + " ausgewählt!");
+            });
+
+            menu.appendChild(newButton);
+        });
+
+        map.appendChild(menu);
+
+    }, true);
+
+});
+</script>
+
+
+
+ 
 <body>
 
 <div class="map">
@@ -253,78 +330,6 @@ body {
         </span>
     </button>
 </div>
-
-// NEUES UNTERMENÜ-SYSTEM
-
-document.addEventListener("DOMContentLoaded", function() {
-
-    const map = document.querySelector(".map");
-
-    if (!map) return;
-
-    // Klick auf einen bisherigen Hauptbutton erkennen
-    map.addEventListener("click", function(event) {
-
-        const button = event.target.closest(".build-button");
-
-        // Klick auf einen neuen Untermenü-Button ignorieren
-        if (!button || button.closest(".added-submenu")) return;
-
-        // Alte Menüs entfernen
-        document.querySelectorAll(".added-submenu").forEach(menu => {
-            menu.remove();
-        });
-
-        event.preventDefault();
-        event.stopImmediatePropagation();
-
-        // Position des angeklickten Buttons bestimmen
-        const mapRect = map.getBoundingClientRect();
-        const buttonRect = button.getBoundingClientRect();
-
-        const x = ((buttonRect.left + buttonRect.width / 2 - mapRect.left)
-                    / mapRect.width) * 100;
-
-        const y = ((buttonRect.bottom - mapRect.top)
-                    / mapRect.height) * 100;
-
-        // Neues Menü erstellen
-        const menu = document.createElement("div");
-        menu.className = "added-submenu";
-
-        menu.style.left = x + "%";
-        menu.style.top = y + "%";
-
-        // Drei neue Buttons
-        const names = ["Haus", "Turm", "Kaserne"];
-
-        names.forEach(function(name) {
-
-            const newButton = document.createElement("button");
-
-            newButton.className = "extra-build-button";
-            newButton.innerHTML = `
-                ${name}
-                <span class="extra-price">
-                    <span style="color:#ffd447">50 Gold</span>
-                    |
-                    <span style="color:#c98a4b">20 Holz</span>
-                </span>
-            `;
-
-            newButton.addEventListener("click", function(e) {
-                e.stopPropagation();
-                alert(name + " ausgewählt!");
-            });
-
-            menu.appendChild(newButton);
-        });
-
-        map.appendChild(menu);
-
-    }, true);
-
-});
-
 </body>
 </html>
+
