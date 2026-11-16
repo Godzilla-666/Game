@@ -1,0 +1,170 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Würfel-Spiel</title>
+
+<style>
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #141e30, #243b55);
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+h1 {
+    font-size: 38px;
+    margin-bottom: 45px;
+}
+
+.wuerfel-container {
+    display: flex;
+    gap: 50px;
+    perspective: 800px;
+    margin-bottom: 45px;
+}
+
+.wuerfel {
+    width: 110px;
+    height: 110px;
+    background: white;
+    color: #243b55;
+    border-radius: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 55px;
+    font-weight: bold;
+    box-shadow: 0 10px 25px #0008;
+    transition: transform 0.3s;
+}
+
+.wuerfel.roll {
+    animation: rollen 0.8s ease-in-out;
+}
+
+@keyframes rollen {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    25% {
+        transform: rotate(90deg) scale(1.2);
+    }
+    50% {
+        transform: rotate(180deg) scale(0.8);
+    }
+    75% {
+        transform: rotate(270deg) scale(1.2);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+button {
+    padding: 18px 55px;
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+    background: #00b894;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px #0005;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #00d2a5;
+    transform: scale(1.05);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+#ergebnis {
+    margin-top: 30px;
+    font-size: 24px;
+    font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🎲 Würfel-Spiel 🎲</h1>
+
+<div class="wuerfel-container">
+    <div class="wuerfel" id="buchstabenWuerfel">A</div>
+    <div class="wuerfel" id="zahlenWuerfel">1</div>
+</div>
+
+<button id="wuerfelButton" onclick="wuerfeln()">
+    WÜRFELN
+</button>
+
+<div id="ergebnis">
+    Drücke auf WÜRFELN!
+</div>
+
+<script>
+const buchstaben = ["A", "B", "C", "D", "E", "F"];
+const zahlen = [1, 2, 3, 4, 5, 6];
+
+function wuerfeln() {
+    const buchstabenWuerfel =
+        document.getElementById("buchstabenWuerfel");
+
+    const zahlenWuerfel =
+        document.getElementById("zahlenWuerfel");
+
+    const ergebnis =
+        document.getElementById("ergebnis");
+
+    const button =
+        document.getElementById("wuerfelButton");
+
+    button.disabled = true;
+
+    // Alte Animation entfernen
+    buchstabenWuerfel.classList.remove("roll");
+    zahlenWuerfel.classList.remove("roll");
+
+    // Animation neu starten
+    void buchstabenWuerfel.offsetWidth;
+    void zahlenWuerfel.offsetWidth;
+
+    buchstabenWuerfel.classList.add("roll");
+    zahlenWuerfel.classList.add("roll");
+
+    // Zufällige Ergebnisse erzeugen
+    const buchstabe =
+        buchstaben[Math.floor(Math.random() * 6)];
+
+    const zahl =
+        zahlen[Math.floor(Math.random() * 6)];
+
+    // Ergebnis nach der Animation anzeigen
+    setTimeout(() => {
+        buchstabenWuerfel.textContent = buchstabe;
+        zahlenWuerfel.textContent = zahl;
+
+        ergebnis.textContent =
+            "Ergebnis: " + buchstabe + " + " + zahl;
+
+        button.disabled = false;
+    }, 800);
+}
+</script>
+
+</body>
+</html>
