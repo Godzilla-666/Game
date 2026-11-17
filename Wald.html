@@ -192,7 +192,7 @@ body {
         menu.style.top = y + "%";
 
         // Drei neue Buttons
-        const buildings = ["Wald", "Turm", "Kaserne"];
+        const buildings = ["Stadt", "Turm", "Kaserne"];
 
         buildings.forEach(function(name) {
 
@@ -208,8 +208,8 @@ body {
            newButton.addEventListener("click", function(e) {
     e.stopPropagation();
 
-    if (name === "Wald") {
-        location.href = "Wald.html";
+    if (name === "Stadt") {
+        location.href = "index.html";
     }
 
     if (name === "Turm") {
