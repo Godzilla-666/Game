@@ -31,7 +31,85 @@ body {
     background-repeat: no-repeat;
 }
 
+/* Quadratische Buttons 2*/
+.travel-button {
+    position: absolute;
+    width: 3.5%;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    background: rgba(45, 45, 45, 0.85);
+    border: 3px solid #d9b45b;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+    z-index: 2;
+}
+ 
+/* Hover-Effekt */
+.build-button:hover,
+.build-button:focus {
+    background: rgba(218, 170, 65, 0.95);
+    transform: translate(-50%, -50%) scale(1.15);
+    border-color: white;
+    outline: none;
+}
 
+/* NEUE UNTERMENÜ-BUTTONS */
+
+.added-submenu {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    transform: translateX(-50%);
+    z-index: 100;
+}
+
+/* Eigenes Design der neuen Buttons */
+.extra-build-button {
+    position: relative;
+    width: 95px;
+    height: 35px;
+    background: linear-gradient(#315b37, #193a22);
+    border: 2px solid #d6ad50;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    cursor: pointer;
+    box-shadow: 0 3px 6px #0009;
+    transition: 0.2s;
+}
+
+.extra-build-button:hover {
+    background: linear-gradient(#548c48, #315b37);
+    border-color: white;
+    transform: translate(-25%, -25%) scale(1.15);
+    display: block;
+}
+
+/*Anzeige */
+.other {
+    display: none;
+    position: absolute;
+    left: 105%;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #222;
+    color: white;
+    border: 2px solid #d6ad50;
+    padding: 7px;
+    border-radius: 5px;
+    white-space: nowrap;
+    z-index: 200;
+    font-size: 12px;
+}
+
+.extra-build-button:hover .other,
+.extra-build-button:focus .other {
+    display: block;
+}
 
 </style>
 </head>
