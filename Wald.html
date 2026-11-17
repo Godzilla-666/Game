@@ -90,11 +90,112 @@ body {
 
 <body>
 
+<script>
+(function () {
 
+    const map = document.querySelector(".map");
 
-<button class="back" onclick="location.href='index.html'">
-    ← Zurück
-</button>
+    if (!map) {
+        console.error("Karte nicht gefunden!");
+        return;
+    }
+
+    let activeButton = null;
+
+    map.addEventListener("click", function(event) {
+
+        const button = event.target.closest(
+            ".travel-button"
+        );
+
+        // Keine Hauptbuttons anklicken
+        if (!button || button.closest(".added-submenu")) {
+            return;
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        const oldMenu = map.querySelector(".added-submenu");
+
+        // Wenn derselbe Button erneut angeklickt wird:
+        if (activeButton === button) {
+
+            if (oldMenu) {
+                oldMenu.remove();
+            }
+
+            activeButton = null;
+            return;
+        }
+
+        // Altes Menü schließen
+        if (oldMenu) {
+            oldMenu.remove();
+        }
+
+        activeButton = button;
+
+        // Position bestimmen
+        const mapRect = map.getBoundingClientRect();
+        const buttonRect = button.getBoundingClientRect();
+
+        const x =
+            ((buttonRect.left + buttonRect.width / 2 - mapRect.left)
+            / mapRect.width) * 100;
+
+        const y =
+            ((buttonRect.bottom - mapRect.top)
+            / mapRect.height) * 100;
+
+        // Menü erstellen
+        const menu = document.createElement("div");
+
+        menu.className = "added-submenu";
+        menu.style.left = x + "%";
+        menu.style.top = y + "%";
+
+        // Drei neue Buttons
+        const buildings = ["Wald", "Turm", "Kaserne"];
+
+        buildings.forEach(function(name) {
+
+            const newButton = document.createElement("button");
+
+            newButton.type = "button";
+            newButton.className = "extra-build-button";
+
+            newButton.innerHTML = `
+                ${name}
+               `;
+
+           newButton.addEventListener("click", function(e) {
+    e.stopPropagation();
+
+    if (name === "Wald") {
+        location.href = "Wald.html";
+    }
+
+    if (name === "Turm") {
+        location.href = "teleport.html";
+    }
+
+    if (name === "Kaserne") {
+        location.href = "teleport.html";
+    }
+});
+
+            menu.appendChild(newButton);
+
+        });
+
+        map.appendChild(menu);
+
+    }, true);
+
+})();
+</script>
+
 
 </body>
 </html>
