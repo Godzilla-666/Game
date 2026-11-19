@@ -111,6 +111,75 @@ body {
     display: block;
 }
 
+/* BAUM-BUTTON */
+
+.tree-button {
+    position: absolute;
+    width: 75px;
+    height: 100px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 65px;
+    z-index: 10;
+    transition: transform 0.2s;
+}
+
+.tree-button:hover {
+    transform: scale(1.1);
+}
+
+/* Fäll-Animation */
+.tree-button.falling {
+    animation: treeFall 3s ease-in forwards;
+    pointer-events: none;
+}
+
+@keyframes treeFall {
+    0% {
+        transform: rotate(0deg);
+    }
+    35% {
+        transform: rotate(15deg);
+    }
+    65% {
+        transform: rotate(40deg);
+    }
+    100% {
+        transform: rotate(90deg);
+        opacity: 0;
+    }
+}
+
+/* Baumstumpf */
+.tree-stump {
+    font-size: 45px;
+    cursor: default;
+    position: relative;
+}
+
+/* Zeit-Anzeige */
+.tree-timer {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #252525;
+    color: #fff;
+    border: 2px solid #d9b45b;
+    border-radius: 6px;
+    padding: 7px 10px;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.tree-stump:hover .tree-timer {
+    display: block;
+}
+
+
+    
 </style>
 </head>
 
