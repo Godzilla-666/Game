@@ -309,6 +309,74 @@ body {
 
 })();
 </script>
+<script>
+function cutTree(treeId) {
+
+    const tree = document.getElementById(treeId);
+
+    // Prüfen, ob der Baum bereits gefällt wird
+    if (tree.dataset.cut === "true") return;
+
+    tree.dataset.cut = "true";
+
+    // Fäll-Animation starten
+    tree.classList.add("falling");
+
+    // Nach 3 Sekunden Baumstumpf anzeigen
+    setTimeout(function() {
+
+        tree.classList.remove("falling");
+
+        tree.classList.add("tree-stump");
+
+        tree.innerHTML = `
+            🪵
+            <span class="tree-timer" id="${treeId}-timer">
+                Baum wächst nach: 45 Sekunden
+            </span>
+        `;
+
+        tree.style.opacity = "1";
+        tree.style.transform = "none";
+        tree.style.pointerEvents = "auto";
+        tree.onclick = null;
+
+        let remaining = 45;
+
+        const timer = document.getElementById(treeId + "-timer");
+
+        // Wachstumszeit herunterzählen
+        const countdown = setInterval(function() {
+
+            remaining--;
+
+            if (timer) {
+                timer.textContent =
+                    "Baum wächst nach: " + remaining + " Sekunden";
+            }
+
+            if (remaining <= 0) {
+
+                clearInterval(countdown);
+
+                // Baum wächst wieder nach
+                tree.classList.remove("tree-stump");
+                tree.innerHTML = "🌳";
+
+                tree.dataset.cut = "false";
+
+                tree.onclick = function() {
+                    cutTree(treeId);
+                };
+
+            }
+
+        }, 1000);
+
+    }, 3000);
+
+}
+ </script>
 
 
 </body>
